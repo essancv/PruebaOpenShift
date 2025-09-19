@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: my-python
-          image: python-image:latest
+          image: python:latest
           ports:
             - name: http
               containerPort: 8081
