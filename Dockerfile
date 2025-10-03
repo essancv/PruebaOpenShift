@@ -37,6 +37,11 @@ RUN wget https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz && \
     cd .. && \
     rm -rf Python-3.13.0 Python-3.13.0.tgz
 
+# Instala pip para Python 3.13
+RUN wget https://bootstrap.pypa.io/get-pip.py && \
+    python3.13 get-pip.py && \
+    rm get-pip.py
+    
 # Configura los comandos predeterminados para Python y Java
 RUN update-alternatives --install /usr/bin/python python /usr/local/bin/python3.13 1
 
