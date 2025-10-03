@@ -38,7 +38,7 @@ RUN wget https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz && \
     rm -rf Python-3.13.0 Python-3.13.0.tgz
 
 # Configura los comandos predeterminados para Python y Java
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.13 1
+RUN update-alternatives --install /usr/bin/python python /usr/local/bin/python3.13 1
 
 # Verifica las versiones instaladas
 RUN python --version && java -version
