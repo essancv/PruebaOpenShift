@@ -23,5 +23,15 @@ WORKDIR /app
 # Copia los archivos necesarios (si los hay)
 # ADD . /app
 
+# Copia el archivo de dependencias (requirements.txt) al contenedor
+COPY requirements.txt .
+
+# Actualiza pip y luego instala los paquetes necesarios
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt
+
+# Copia el resto de los archivos de la aplicación al contenedor
+COPY . .
+
 # Comando por defecto (puedes personalizarlo según tus necesidades)
 CMD ["bash"]
