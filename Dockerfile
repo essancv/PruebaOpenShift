@@ -3,16 +3,42 @@ FROM ubuntu:20.04
 
 # Establece el entorno no interactivo para evitar prompts durante la instalación
 ENV DEBIAN_FRONTEND=noninteractive
+# Establece el entorno no interactivo para evitar prompts durante la instalación
+ENV DEBIAN_FRONTEND=noninteractive
 
-# Actualiza los paquetes e instala Python y Java
+# Actualiza los paquetes e instala dependencias necesarias para compilar Python y para Java
 RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
+    wget \
+    build-essential \
+    libssl-dev \
+    zlib1g-dev \
+    libncurses5-dev \
+    libncursesw5-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libgdbm-dev \
+    libdb5.3-dev \
+    libbz2-dev \
+    libexpat1-dev \
+    liblzma-dev \
+    tk-dev \
+    libffi-dev \
+    uuid-dev \
     openjdk-11-jdk \
     && apt-get clean
 
+# Descarga y compila Python 3.13 desde el código fuente
+RUN wget https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz && \
+    tar xvf Python-3.13.0.tgz && \
+    cd Python-3.13.0 && \
+    ./configure --enable-optimizations && \
+    make -j$(nproc) && \
+    make altinstall && \
+    cd .. && \
+    rm -rf Python-3.13.0 Python-3.13.0.tgz
+
 # Configura los comandos predeterminados para Python y Java
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 1
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3.13 1
 
 # Verifica las versiones instaladas
 RUN python --version && java -version
