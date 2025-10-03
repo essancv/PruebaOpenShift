@@ -34,4 +34,4 @@ RUN pip install --upgrade pip && \
 COPY . .
 
 # Comando por defecto (puedes personalizarlo según tus necesidades)
-CMD ["bash"]
+CMD ["python", "app.py"]
