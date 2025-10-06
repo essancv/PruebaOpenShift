@@ -3,8 +3,6 @@ FROM ubuntu:20.04
 
 # Establece el entorno no interactivo para evitar prompts durante la instalación
 ENV DEBIAN_FRONTEND=noninteractive
-# Establece el entorno no interactivo para evitar prompts durante la instalación
-ENV DEBIAN_FRONTEND=noninteractive
 
 # Actualiza los paquetes e instala dependencias necesarias para compilar Python y para Java
 RUN apt-get update && apt-get install -y \
@@ -39,27 +37,24 @@ RUN wget https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz && \
 
 # Instala pip para Python 3.13
 RUN wget https://bootstrap.pypa.io/get-pip.py && \
-    python3.13 get-pip.py && \
+    /usr/local/bin/python3.13 get-pip.py && \
     rm get-pip.py
-    
+
 # Configura los comandos predeterminados para Python y Java
 RUN update-alternatives --install /usr/bin/python python /usr/local/bin/python3.13 1
 
 # Verifica las versiones instaladas
-RUN python --version && pip --version && java -version
+RUN python --version && /usr/local/bin/python3.13 -m pip --version && java -version
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
 # Copia los archivos necesarios (si los hay)
-# ADD . /app
-
-# Copia el archivo de dependencias (requirements.txt) al contenedor
 COPY requirements.txt .
 
 # Actualiza pip y luego instala los paquetes necesarios
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+RUN /usr/local/bin/python3.13 -m pip install --upgrade pip && \
+    /usr/local/bin/python3.13 -m pip install -r requirements.txt
 
 # Copia el resto de los archivos de la aplicación al contenedor
 COPY . .
