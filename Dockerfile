@@ -46,7 +46,7 @@ RUN wget https://bootstrap.pypa.io/get-pip.py && \
 RUN update-alternatives --install /usr/bin/python python /usr/local/bin/python3.13 1
 
 # Verifica las versiones instaladas
-RUN python --version && java -version
+RUN python --version && pip --version && java -version
 
 # Establece el directorio de trabajo
 WORKDIR /app
